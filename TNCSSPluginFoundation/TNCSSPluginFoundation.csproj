@@ -9,7 +9,7 @@
     <Authors>tuna A.K.A faketuna and fltuna</Authors>
     <PackageVersion>0.0.1</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/fltuna/NativeVoteAPI-CS2</RepositoryUrl>
+    <RepositoryUrl>https://github.com/fltuna/TNCSSPluginFoundation</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
 
