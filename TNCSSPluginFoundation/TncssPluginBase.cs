@@ -31,6 +31,8 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     
     /// <summary>
     /// ConVar configuration path, this path is used for saving All ConVar config.
+    /// Relative path from game/csgo/cfg/
+    /// Also if this path defined a specific file, then module config is not generated.
     /// </summary>
     public abstract string ConVarConfigPath { get; }
 
@@ -118,6 +120,7 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
         TncssAllPluginsLoaded(hotReload);
         CallModulesAllPluginsLoaded();
         ConVarConfigurationService.SaveAllConfigToFile();
+        ConVarConfigurationService.ExecuteConfigs();
     }
     
 

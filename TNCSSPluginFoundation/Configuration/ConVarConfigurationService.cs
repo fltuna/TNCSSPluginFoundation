@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Modules.Cvars;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Cvars;
 using Microsoft.Extensions.Logging;
 
 namespace TNCSSPluginFoundation.Configuration;
@@ -104,6 +105,37 @@ public class ConVarConfigurationService(TncssPluginBase plugin)
         }
     }
 
+    internal void ExecuteConfigs()
+    {
+        // Check ConVarConfigPath is not directory, and file is not exists
+        if(!Directory.Exists(plugin.ConVarConfigPath) && !File.Exists(plugin.ConVarConfigPath))
+            return;
+
+        if (Directory.Exists(plugin.ConVarConfigPath))
+        {
+            foreach (var moduleName in _moduleConVars.Keys)
+            {
+                string moduleConfigPath = Path.Combine(plugin.ConVarConfigPath, moduleName + ".cfg");
+        
+                if(!File.Exists(moduleConfigPath))
+                    continue;
+            
+                string configPath = GetSubPathAfterPattern(moduleConfigPath, "game/csgo/cfg");
+                Server.ExecuteCommand($"exec {configPath}");
+            }
+        }
+        else if (File.Exists(plugin.ConVarConfigPath))
+        {
+            string configPath = GetSubPathAfterPattern(plugin.ConVarConfigPath, "game/csgo/cfg");
+            Server.ExecuteCommand($"exec {configPath}");
+        }
+        else
+        {
+            plugin.Logger.LogError("We failed to find and executing the config file. This is shouldn't be happened!");
+        }
+
+    }
+
     private bool IsFileExists(string path)
     {
         string directory = Path.GetDirectoryName(path)!;
@@ -130,5 +162,27 @@ public class ConVarConfigurationService(TncssPluginBase plugin)
     public void UntrackModule(string moduleName)
     {
         _moduleConVars.Remove(moduleName);
+    }
+
+    private static string GetSubPathAfterPattern(string fullPath, string pattern)
+    {
+        pattern = pattern.Replace('\\', '/').TrimEnd('/') + '/';
+        fullPath = fullPath.Replace('\\', '/');
+        
+        int patternIndex = fullPath.LastIndexOf(pattern, StringComparison.Ordinal);
+        
+        if (patternIndex < 0)
+        {
+            return string.Empty;
+        }
+        
+        int startPos = patternIndex + pattern.Length;
+        
+        if (startPos >= fullPath.Length)
+        {
+            return string.Empty;
+        }
+        
+        return fullPath.Substring(startPos);
     }
 }
