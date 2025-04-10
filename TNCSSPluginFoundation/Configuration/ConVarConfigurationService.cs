@@ -113,6 +113,7 @@ public class ConVarConfigurationService(TncssPluginBase plugin)
 
         if (Directory.Exists(plugin.ConVarConfigPath))
         {
+            plugin.Logger.LogInformation("Executing module ConVar config files...");
             foreach (var moduleName in _moduleConVars.Keys)
             {
                 string moduleConfigPath = Path.Combine(plugin.ConVarConfigPath, moduleName + ".cfg");
@@ -126,6 +127,7 @@ public class ConVarConfigurationService(TncssPluginBase plugin)
         }
         else if (File.Exists(plugin.ConVarConfigPath))
         {
+            plugin.Logger.LogInformation("Executing plugin ConVar config files...");
             string configPath = GetSubPathAfterPattern(plugin.ConVarConfigPath, "game/csgo/cfg");
             Server.ExecuteCommand($"exec {configPath}");
         }
@@ -133,7 +135,7 @@ public class ConVarConfigurationService(TncssPluginBase plugin)
         {
             plugin.Logger.LogError("We failed to find and executing the config file. This is shouldn't be happened!");
         }
-
+        plugin.Logger.LogInformation("ConVar config execution has been done");
     }
 
     private bool IsFileExists(string path)
