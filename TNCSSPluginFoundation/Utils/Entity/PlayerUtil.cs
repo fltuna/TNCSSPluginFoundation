@@ -86,6 +86,9 @@ public static class PlayerUtil
     {
         client.PlayerName = playerName;
         Utilities.SetStateChanged(client, "CBasePlayerController", "m_iszPlayerName");
+
+        var fakeEvent = new EventNextlevelChanged(false);
+        fakeEvent.FireEventToClient(client);
     }
 
     
