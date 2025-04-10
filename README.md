@@ -28,4 +28,8 @@ Provides powerful and faster development experience if your plugin feature is se
 2. Run `dotnet add package TNCSSPluginFoundation`
 3. Ready to develop
 
+### Example
+
+[lupercalia-mg-cs2](https://github.com/fltuna/lupercalia-mg-cs2) is heavily uses this framework.
+
 TODO
