@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API;
+﻿using System.Runtime.CompilerServices;
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -30,7 +31,7 @@ public static class PlayerUtil
     /// <summary>
     /// Get player model path
     /// </summary>
-    /// <param name="client">CCSPlayerController instance. This parameter shouldn't be null</param>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
     /// <returns>Returns model name if found. Otherwise, empty string</returns>
     public static string GetPlayerModel(CCSPlayerController client)
     {
@@ -48,7 +49,7 @@ public static class PlayerUtil
     /// <summary>
     /// Set player model
     /// </summary>
-    /// <param name="client">CCSPlayerController instance. This parameter shouldn't be null</param>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
     /// <param name="modelPath">Path to model end with .vmdl</param>
     /// <returns>Return true if successfully to set. Otherwise false</returns>
     public static bool SetPlayerModel(CCSPlayerController client, string modelPath)
@@ -66,7 +67,7 @@ public static class PlayerUtil
     /// Returns a name of player, If param is null, then returns CONSOLE
     /// This method is useful for replying command or broadcasting executor name.
     /// </summary>
-    /// <param name="client">CCSPlayerController</param>
+    /// <param name="client">Target CCSPlayerController</param>
     /// <returns></returns>
     public static string GetPlayerName(CCSPlayerController? client)
     {
@@ -76,11 +77,49 @@ public static class PlayerUtil
         return client.PlayerName;
     }
 
+    /// <summary>
+    /// Set player's name
+    /// </summary>
+    /// <param name="client">Target CCSPlayerController</param>
+    /// <param name="playerName">Name of player</param>
+    public static void SetPlayerName(CCSPlayerController client, string playerName)
+    {
+        client.PlayerName = playerName;
+        Utilities.SetStateChanged(client, "CBasePlayerController", "m_iszPlayerName");
+    }
+
+    
+    /// <summary>
+    /// Set player's clan tag
+    /// </summary>
+    /// <param name="client">Target CCSPlayerController</param>
+    /// <param name="playerClanTag">Tag name string</param>
+    public static void SetPlayerClanTag(CCSPlayerController client, string playerClanTag)
+    {
+        client.Clan = playerClanTag;
+        Utilities.SetStateChanged(client, "CCSPlayerController", "m_szClan");
+    }
+
+    /// <summary>
+    /// Set player's team
+    /// </summary>
+    /// <param name="client">Target CCSPlayerController</param>
+    /// <param name="playerTeam"></param>
+    public static void SetPlayerTeam(CCSPlayerController client, CsTeam playerTeam)
+    {
+        if (client.TeamNum == (byte)playerTeam)
+            return;
+        
+        Server.NextFrame(() =>
+        {
+            client.ChangeTeam(playerTeam);
+        });
+    }
 
     /// <summary>
     /// Set player's health to specified value
     /// </summary>
-    /// <param name="client">CCSPlayerController instance. This parameter shouldn't be null</param>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
     /// <param name="health">The value of health</param>
     /// <returns>Return true if successfully to set. Otherwise false</returns>
     public static bool SetPlayerHealth(CCSPlayerController client, int health)
@@ -96,7 +135,7 @@ public static class PlayerUtil
     /// <summary>
     /// Set player's max health to specified value
     /// </summary>
-    /// <param name="client">CCSPlayerController instance. This parameter shouldn't be null</param>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
     /// <param name="maxHealth">Value of max health</param>
     /// <returns>Return true if successfully to set. Otherwise false</returns>
     public static bool SetPlayerMaxHealth(CCSPlayerController client, int maxHealth)
@@ -110,25 +149,42 @@ public static class PlayerUtil
     }
 
     /// <summary>
-    /// Set player's kevlar to specified value
+    /// Set player's armor to specified value
     /// </summary>
-    /// <param name="client">CCSPlayerController instance. This parameter shouldn't be null</param>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
     /// <param name="amount">Value of kevlar armor</param>
+    /// <param name="hasHelmet">Boolean to specify player should have a helmet</param>
+    /// <param name="hasHeavyArmor">Boolean to specify player should have a heavy armor</param>
     /// <returns>Return true if successfully to set. Otherwise false</returns>
-    public static bool SetPlayerKevlar(CCSPlayerController client, int amount)
+    public static bool SetPlayerArmor(CCSPlayerController client, int amount, bool hasHelmet = false, bool hasHeavyArmor = false)
     {
         if (client.PlayerPawn.Value == null)
             return false;
         
-        client.PlayerPawn.Value!.ArmorValue = amount;
+        client.PlayerPawn.Value.ArmorValue = amount;
         Utilities.SetStateChanged(client.PlayerPawn.Value!, "CCSPlayerPawn", "m_ArmorValue");
+        
+        
+        if (!hasHelmet && !hasHeavyArmor)
+            return true;
+        
+        if (client.PlayerPawn.Value.ItemServices == null)
+            return false;
+        
+        
+        _ = new CCSPlayer_ItemServices(client.PlayerPawn.Value.ItemServices.Handle)
+        {
+            HasHelmet = hasHelmet,
+            HasHeavyArmor = hasHeavyArmor
+        };
+        Utilities.SetStateChanged(client.PlayerPawn.Value, "CBasePlayerPawn", "m_pItemServices");
         return true;
     }
 
     /// <summary>
     /// Set player's money to specified value
     /// </summary>
-    /// <param name="client">CCSPlayerController instance. This parameter shouldn't be null</param>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
     /// <param name="money">Value of player money</param>
     /// <returns>Return true if successfully to set. Otherwise false</returns>
     public static bool SetPlayerMoney(CCSPlayerController client, int money)
@@ -144,7 +200,7 @@ public static class PlayerUtil
     /// <summary>
     /// Set player's BuyZone status to specified value
     /// </summary>
-    /// <param name="client">CCSPlayerController instance. This parameter shouldn't be null</param>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
     /// <param name="inBuyZone">Value of player BuyZone status</param>
     /// <returns>Return true if successfully to set. Otherwise false</returns>
     public static bool SetPlayerBuyZoneStatus(CCSPlayerController client, bool inBuyZone)
