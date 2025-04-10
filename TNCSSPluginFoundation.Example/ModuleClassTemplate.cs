@@ -7,7 +7,7 @@ public sealed class ModuleClassTemplate(IServiceProvider serviceProvider) : Plug
 {
     public override string PluginModuleName => "ClassTemplate";
 
-    protected override string ModuleChatPrefix => "[ClassTemplate]";
+    public override string ModuleChatPrefix => "[ClassTemplate]";
 
     // public FakeConVar<float> VariableName = new(
     //     "convar_name",
