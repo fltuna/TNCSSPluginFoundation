@@ -6,7 +6,7 @@ namespace TNCSSPluginFoundation.Utils.Entity;
 /// <summary>
 /// Utility class for manipulate CCSTeam entity
 /// </summary>
-public static class CsTeamUtility
+public static class CsTeamUtil
 {
     
     /// <summary>
