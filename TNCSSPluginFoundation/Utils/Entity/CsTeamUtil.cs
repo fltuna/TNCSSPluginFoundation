@@ -17,13 +17,20 @@ public static class CsTeamUtil
     /// <returns>Returns true if successfully set. Otherwise false</returns>
     public static bool SetTeamName(CsTeam team, string teamName)
     {
-        var teamEntity = EntityUtil.GetTeam(team);
-        
-        if (teamEntity == null)
+        if (team != CsTeam.Terrorist && team != CsTeam.CounterTerrorist)
             return false;
+
+        string cmd;
+        if (team == CsTeam.CounterTerrorist)
+        {
+            cmd = $"mp_teamname_1 {teamName}";
+        }
+        else
+        {
+            cmd = $"mp_teamname_2 {teamName}";
+        }
         
-        teamEntity.Teamname = teamName;
-        Utilities.SetStateChanged(teamEntity, "CTeam", "m_szTeamname");
+        Server.ExecuteCommand(cmd);
         return true;
     }
 
@@ -36,6 +43,9 @@ public static class CsTeamUtil
     /// <returns>Returns true if successfully set. Otherwise false</returns>
     public static bool SetTeamScore(CsTeam team, int score)
     {
+        if (team != CsTeam.Terrorist && team != CsTeam.CounterTerrorist)
+            return false;
+        
         var teamEntity = EntityUtil.GetTeam(team);
         if (teamEntity == null)
             return false;
@@ -46,9 +56,29 @@ public static class CsTeamUtil
     }
 
     
+    /// <summary>
+    /// Set team logo to specified string
+    /// </summary>
+    /// <param name="team">Team ID</param>
+    /// <param name="logo">The name of logo</param>
+    /// <returns>Returns true if successfully set. Otherwise false</returns>
     public static bool SetTeamLogo(CsTeam team, string logo)
     {
-        // TODO(): Investigate logo behaviour and implement
+        if (team != CsTeam.Terrorist && team != CsTeam.CounterTerrorist)
+            return false;
+
+        string cmd;
+        if (team == CsTeam.CounterTerrorist)
+        {
+            cmd = $"mp_teamlogo_1 {logo}";
+        }
+        else
+        {
+            cmd = $"mp_teamlogo_2 {logo}";
+        }
+        
+        Server.ExecuteCommand(cmd);
+        
         return true;
     }
 }
