@@ -98,6 +98,9 @@ public static class PlayerUtil
     {
         client.Clan = playerClanTag;
         Utilities.SetStateChanged(client, "CCSPlayerController", "m_szClan");
+
+        var fakeEvent = new EventNextlevelChanged(false);
+        fakeEvent.FireEventToClient(client);
     }
 
     /// <summary>
