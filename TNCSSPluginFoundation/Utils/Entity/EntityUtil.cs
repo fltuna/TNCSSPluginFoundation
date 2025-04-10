@@ -19,6 +19,15 @@ public static class EntityUtil
     }
 
     /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>Returns CCSGameRulesProxy</returns>
+    public static CCSGameRulesProxy GetGameRulesProxy()
+    {
+        return Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First();
+    }
+
+    /// <summary>
     /// Return a specified CsTeam's CCSTeam instance.
     /// </summary>
     /// <param name="csTeam">Team to want to obtain</param>
