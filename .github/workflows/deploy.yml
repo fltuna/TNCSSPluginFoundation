@@ -123,5 +123,5 @@ jobs:
 
       - name: Publish to Nuget
         run: |
-          dotnet nuget push "bin/Release/TNCSSPluginFoundation-CS2.${{env.VERSION}}.nupkg" --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+          dotnet nuget push "bin/Release/TNCSSPluginFoundation.${{env.VERSION}}.nupkg" --skip-duplicate --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
         working-directory: TNCSSPluginFoundation
