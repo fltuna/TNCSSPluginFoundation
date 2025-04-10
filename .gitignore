@@ -1,0 +1,7 @@
+TNCSSPluginFoundation/obj/*
+TNCSSPluginFoundation/bin/*
+TNCSSPluginFoundation.Example/obj/*
+TNCSSPluginFoundation.Example/bin/*
+
+.idea
+TNCSSPluginFoundation.sln.DotSettings.user
