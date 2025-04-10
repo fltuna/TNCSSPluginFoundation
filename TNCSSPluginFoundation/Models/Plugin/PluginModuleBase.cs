@@ -21,7 +21,7 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
     /// <summary>
     /// This string is used as a prefix for printing to the in-game chat.
     /// </summary>
-    protected abstract string ModuleChatPrefix { get; } 
+    public abstract string ModuleChatPrefix { get; } 
 
     /// <summary>
     /// ConVarConfigurationService
