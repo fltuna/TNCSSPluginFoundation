@@ -1,5 +1,9 @@
-﻿using CounterStrikeSharp.API;
+﻿using System.Globalization;
+using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Translations;
 using CounterStrikeSharp.API.Modules.Cvars;
+using CounterStrikeSharp.API.Modules.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using TNCSSPluginFoundation.Configuration;
 using TNCSSPluginFoundation.Interfaces;
@@ -123,7 +127,51 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
     /// <param name="args">Any args that can be use ToString()</param>
     protected void PrintLocalizedChatToAll(string localizationKey, params object[] args)
     {
-        Server.PrintToChatAll(LocalizeWithPluginPrefix(localizationKey, args));
+        foreach (CCSPlayerController client in Utilities.GetPlayers())
+        {
+            if (client.IsBot || client.IsHLTV)
+                continue;
+
+            try
+            {
+                CultureInfo cultureInfo = PlayerLanguageManager.Instance.GetLanguage((SteamID)client.SteamID);
+                using var temporaryCulture = new WithTemporaryCulture(cultureInfo);
+                client.PrintToChat(LocalizeWithPluginPrefix(localizationKey, args));
+            }
+            catch (Exception)
+            {
+                // If failed to get client's steamID then print normally
+                client.PrintToChat(LocalizeWithPluginPrefix(localizationKey, args));
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Helper method for sending localized text with module prefix to all players.
+    /// </summary>
+    /// <param name="isModule"></param>
+    /// <param name="localizationKey">Language localization key</param>
+    /// <param name="args">Any args that can be use ToString()</param>
+    protected void PrintLocalizedChatToAllWithModulePrefix(string localizationKey, params object[] args)
+    {
+        foreach (CCSPlayerController client in Utilities.GetPlayers())
+        {
+            if (client.IsBot || client.IsHLTV)
+                continue;
+
+            try
+            {
+                CultureInfo cultureInfo = PlayerLanguageManager.Instance.GetLanguage((SteamID)client.SteamID);
+                using var temporaryCulture = new WithTemporaryCulture(cultureInfo);
+                client.PrintToChat(LocalizeWithModulePrefix(localizationKey, args));
+            }
+            catch (Exception)
+            {
+                // If failed to get client's steamID then print normally
+                client.PrintToChat(LocalizeWithPluginPrefix(localizationKey, args));
+            }
+        }
     }
 
     /// <summary>
