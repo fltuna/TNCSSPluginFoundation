@@ -18,7 +18,7 @@ Provides powerful and faster development experience if your plugin feature is se
 
 Since CounterStrikeSharp's DI requires injection class and definition class.
 
-But I've created this framework for faster development, and convenience.
+But I've created this framework for faster development, and convenience. that's all.
 
 ## How to use
 
