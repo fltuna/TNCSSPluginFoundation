@@ -14,6 +14,12 @@ Provides powerful and faster development experience if your plugin feature is se
 - Dependency Injection with DI container
 - Module oriented development
 
+### Why don't you use CounterStrikeSharp's built-in DI?
+
+Since CounterStrikeSharp's DI requires injection class and definition class.
+
+But I've created this framework for faster development, and convenience.
+
 ## How to use
 
 1. Download latest binary from [latest Release](https://github.com/fltuna/TNCSSPluginFoundation/releases/latest)
