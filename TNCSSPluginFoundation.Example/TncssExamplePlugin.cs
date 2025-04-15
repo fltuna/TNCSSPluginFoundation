@@ -41,6 +41,7 @@ public sealed class TncssExamplePlugin: TncssPluginBase
     protected override void TncssOnPluginLoad(bool hotReload)
     {
         RegisterModule<MapChanger>();
+        RegisterModule<PlayerUtility>();
     }
 
 

@@ -1,6 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace TNCSSPluginFoundation.Utils.Entity;
@@ -217,5 +218,84 @@ public static class PlayerUtil
         client.PlayerPawn.Value!.InBuyZone = inBuyZone;
         Utilities.SetStateChanged(client.PlayerPawn.Value!, "CCSPlayerPawn", "m_bInBuyZone");
         return true;
+    }
+
+
+    /// <summary>
+    /// Get alive players in the server
+    /// </summary>
+    /// <returns>Returns alive players list, if team is out of range then empty list.</returns>
+    public static List<CCSPlayerController> GetAlivePlayers(CsTeam team = CsTeam.None)
+    {
+        if (team is CsTeam.None or CsTeam.Spectator)
+            return [];
+
+        return Utilities.GetPlayers().Where(p => IsPlayerAlive(p) && p.Connected == PlayerConnectedState.PlayerConnected).ToList();
+    }
+
+    /// <summary>
+    /// Get dead players in the server
+    /// </summary>
+    /// <returns>Returns alive players list, if team is out of range then empty list.</returns>
+    public static List<CCSPlayerController> GetDeadPlayers(CsTeam team = CsTeam.None)
+    {
+        if (team is CsTeam.None or CsTeam.Spectator)
+            return [];
+
+        return Utilities.GetPlayers().Where(p => !IsPlayerAlive(p)).ToList();
+    }
+
+    /// <summary>
+    /// Get players by team
+    /// </summary>
+    /// <param name="team">Team ID</param>
+    /// <returns>Returns players list of specified team.</returns>
+    public static List<CCSPlayerController> GetPlayersByTeam(CsTeam team)
+    {
+        return Utilities.GetPlayers().Where(p => p.Team == team).ToList();
+    }
+
+    /// <summary>
+    /// Get players by who have specific weapon
+    /// </summary>
+    /// <param name="item">Weapon</param>
+    /// <returns>Returns players list who have specified item</returns>
+    public static List<CCSPlayerController> GetPlayersBySpecificWeapon(CsItem item)
+    {
+        List<CCSPlayerController> result = [];
+        
+        foreach (CCSPlayerController player in Utilities.GetPlayers())
+        {
+            if (player.PlayerPawn.Value == null)
+                continue;
+            
+            if (player.PlayerPawn.Value.WeaponServices == null)
+                continue;
+            
+            var weaponServices = new CCSPlayer_WeaponServices(player.PlayerPawn.Value.WeaponServices.Handle);
+            
+            foreach (CHandle<CBasePlayerWeapon> weapon in weaponServices.MyWeapons)
+            {
+                var weaponItem = weapon.Get();
+                if (weaponItem == null)
+                {
+                    continue;
+                }
+            
+            
+                var weaponData = weaponItem.VData;
+                if (weaponData == null)
+                {
+                    continue;
+                }
+        
+                if(weaponItem.DesignerName != EnumUtils.GetEnumMemberAttributeValue(item))
+                    continue;
+                
+                result.Add(player);
+            }
+        }
+
+        return result;
     }
 }
