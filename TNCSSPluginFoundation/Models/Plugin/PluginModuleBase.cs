@@ -150,7 +150,6 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
     /// <summary>
     /// Helper method for sending localized text with module prefix to all players.
     /// </summary>
-    /// <param name="isModule"></param>
     /// <param name="localizationKey">Language localization key</param>
     /// <param name="args">Any args that can be use ToString()</param>
     protected void PrintLocalizedChatToAllWithModulePrefix(string localizationKey, params object[] args)
