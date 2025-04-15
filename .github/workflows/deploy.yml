@@ -52,7 +52,9 @@ jobs:
         run: |
           mkdir artifacts
           mkdir artifacts\shared\TNCSSPluginFoundation\
+          mkdir artifacts\gamedata\
           Copy-Item -Path "TNCSSPluginFoundation\bin\Release\*\TNCSSPluginFoundation.dll" -Destination "artifacts\shared\TNCSSPluginFoundation\TNCSSPluginFoundation.dll" -Force
+          Copy-Item -Path "TNCSSPluginFoundation\gamedata\TNCSSPluginFoundation.json" -Destination "artifacts\gamedata\TNCSSPluginFoundation.json" -Force
 
       - name: Compress artifacts
         run:
