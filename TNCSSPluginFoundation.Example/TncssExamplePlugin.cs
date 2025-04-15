@@ -1,6 +1,9 @@
 ﻿using CounterStrikeSharp.API;
 using Microsoft.Extensions.DependencyInjection;
+using TNCSSPluginFoundation.Example.Dependency;
+using TNCSSPluginFoundation.Example.Interfaces;
 using TNCSSPluginFoundation.Example.Modules;
+using TNCSSPluginFoundation.Example.Modules.DI;
 
 namespace TNCSSPluginFoundation.Example;
 
@@ -36,17 +39,27 @@ public sealed class TncssExamplePlugin: TncssPluginBase
     {
         // At this example, We will set the plugin's IDebugLogger to my own implementation of IDebugLogger.
         DebugLogger = new SimpleDebugLogger(provider);
+        
+        // This is a sample of registering your own service to DI container.
+        collection.AddSingleton<IPluginDependencyExample, PluginDependencyExample>();
     }
 
     protected override void TncssOnPluginLoad(bool hotReload)
     {
         RegisterModule<MapChanger>();
         RegisterModule<PlayerUtility>();
+        
+        // The initialization order doesn't matter as long as you follow our framework's rules.
+        // There is only one rule: You can obtain dependencies from the DI container only when the AllPluginsLoaded method is called in PluginModules.
+        RegisterModule<DiTest>();
+        RegisterModule<ModuleDependency>();
     }
 
 
     protected override void LateRegisterPluginServices(IServiceCollection collection, IServiceProvider provider)
     {
+        // This method will call when CounterStrikeSharp's AllPluginsLoaded execution.
+        // So you can get other plugins capability and register to this framework's DI container here.
     }
 
     protected override void TncssAllPluginsLoaded(bool hotReload)
