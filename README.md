@@ -38,6 +38,10 @@ Also, If we make plugin with module oriented development, there is no way to inj
 
 ### Example
 
-[lupercalia-mg-cs2](https://github.com/fltuna/lupercalia-mg-cs2) is heavily uses this framework.
+See [Example Plugin](TNCSSPluginFoundation.Example) for module initialization and DI container usage.
 
-TODO
+Also, [lupercalia-mg-cs2](https://github.com/fltuna/lupercalia-mg-cs2) is heavily uses this framework.
+
+
+
+Detailed documentation is not available yet.
