@@ -7,10 +7,45 @@ namespace TNCSSPluginFoundation.Utils.Other;
 /// </summary>
 public static class MapUtil
 {
-    private static HashSet<string> _officialMaps = new()
-    {
+    private static HashSet<string> _officialMaps =
+    [
+        "ar_baggage",
+        "ar_baggage_vanity",
+        "ar_pool_day",
+        "ar_shoots",
+        "cs_italy",
+        "cs_italy_vanity",
+        "cs_office",
+        "cs_office_vanity",
+        "de_ancient",
+        "de_ancient_vanity",
+        "de_anubis",
+        "de_anubis_vanity",
+        "de_basalt",
         "de_dust2",
-    };
+        "de_dust2_vanity",
+        "de_edin",
+        "de_inferno",
+        "de_inferno_vanity",
+        "de_mirage",
+        "de_mirage_vanity",
+        "de_nuke",
+        "de_nuke_vanity",
+        "de_overpass",
+        "de_overpass_vanity",
+        "de_palais",
+        "de_train",
+        "de_train_vanity",
+        "de_vertigo",
+        "de_vertigo_vanity",
+        "de_whistle",
+        "graphics_settings",
+        "lobby_mapveto",
+        "warehouse_vanity",
+        "workshop_preview_ancient",
+        "workshop_preview_dust2",
+        "workshop_preview_inferno"
+    ];
     
     /// <summary>
     /// Returns current map workshop ID
