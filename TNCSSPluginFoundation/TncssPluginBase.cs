@@ -97,6 +97,7 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
         
         // Call customizable OnLoad method
         TncssOnPluginLoad(hotReload);
+        TncssLateOnPluginLoad(ServiceProvider);
     }
 
     /// <summary>
@@ -104,8 +105,12 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     /// </summary>
     /// <param name="hotReload">Is hot reload?</param>
     protected virtual void TncssOnPluginLoad(bool hotReload){}
-    
-    
+
+    /// <summary>
+    /// You can register plugin capability here.
+    /// All modules registered DI dependency is accessible in here.
+    /// </summary>
+    protected virtual void TncssLateOnPluginLoad(ServiceProvider provider){}
 
     /// <summary>
     /// CounterStrikeSharp's OnAllPluginsLoaded.
