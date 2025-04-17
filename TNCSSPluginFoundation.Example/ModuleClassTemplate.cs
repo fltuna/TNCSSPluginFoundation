@@ -29,17 +29,6 @@ public sealed class ModuleClassTemplate(IServiceProvider serviceProvider) : Plug
     // You need to call TrackConVar() method in OnInitialize()
     //
     //
-    
-    
-    
-    /// <summary>
-    /// This method will call while registering module, and module registration is called in plugins Load method.
-    /// Also, we can get ConVarConfigurationService and AbstractTunaPluginBase from DI container from this method.
-    /// </summary>
-    /// <param name="services">ServiceCollection</param>
-    public override void RegisterServices(IServiceCollection services)
-    {
-    }
 
     
     /// <summary>
@@ -50,6 +39,15 @@ public sealed class ModuleClassTemplate(IServiceProvider serviceProvider) : Plug
     {
         // For instance
         // TrackConVar(ConVarVariableName);
+    }
+    
+    /// <summary>
+    /// This method will call while registering module, and module registration is called in plugins Load method.
+    /// Also, we can get ConVarConfigurationService and TncssPluginBase from DI container from this method.
+    /// </summary>
+    /// <param name="services">ServiceCollection</param>
+    public override void RegisterServices(IServiceCollection services)
+    {
     }
 
     /// <summary>
