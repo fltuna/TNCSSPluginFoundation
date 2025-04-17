@@ -9,22 +9,40 @@ namespace TNCSSPluginFoundation.Utils.Entity;
 /// </summary>
 public static class EntityUtil
 {
+    
+    
+    private static CCSGameRulesProxy? _rulesProxy;
+    
     /// <summary>
     /// 
     /// </summary>
     /// <returns>Returns CCSGameRules instance if found. Otherwise null</returns>
     public static CCSGameRules? GetGameRules()
     {
-        return Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First().GameRules;
+        return GetGameRulesProxy()?.GameRules;
     }
 
     /// <summary>
     /// 
     /// </summary>
     /// <returns>Returns CCSGameRulesProxy</returns>
-    public static CCSGameRulesProxy GetGameRulesProxy()
+    public static CCSGameRulesProxy? GetGameRulesProxy()
     {
-        return Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").First();
+        if (_rulesProxy == null || !_rulesProxy.IsValid)
+        {
+            _rulesProxy = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").FirstOrDefault();
+        }
+        
+        return _rulesProxy;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <returns>Returns a CCSTeam instances.</returns>
+    public static IEnumerable<CCSTeam?> GetTeams()
+    {
+        return Utilities.FindAllEntitiesByDesignerName<CCSTeam>("cs_team_manager");
     }
 
     /// <summary>
@@ -43,14 +61,5 @@ public static class EntityUtil
         }
         
         return null;
-    }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns>Returns a CCSTeam instances.</returns>
-    public static IEnumerable<CCSTeam?> GetTeams()
-    {
-        return Utilities.FindAllEntitiesByDesignerName<CCSTeam>("cs_team_manager");
     }
 }

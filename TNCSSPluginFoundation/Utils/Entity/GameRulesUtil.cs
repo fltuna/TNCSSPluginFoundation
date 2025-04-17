@@ -36,7 +36,7 @@ public class GameRulesUtil
 
         gameRules.RoundTime = newRoundTime;
         var result = gameRules.RoundTime;
-        Utilities.SetStateChanged(EntityUtil.GetGameRulesProxy(), "CCSGameRulesProxy", "m_pGameRules");
+        Utilities.SetStateChanged(EntityUtil.GetGameRulesProxy()!, "CCSGameRulesProxy", "m_pGameRules");
         return result;
     }
 
