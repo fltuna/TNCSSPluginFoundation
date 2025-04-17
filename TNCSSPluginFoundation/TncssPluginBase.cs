@@ -193,8 +193,8 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     {
         var module = (T)Activator.CreateInstance(typeof(T), ServiceProvider)!;
         _loadedModules.Add(module);
-        module.RegisterServices(ServiceCollection);
         module.Initialize();
+        module.RegisterServices(ServiceCollection);
         RegisterFakeConVars(module.GetType(), module);
         // Rebuild, because some modules are depend on other modules.
         // And if the module is API or something, required before call OnAllPluginsLoaded.
@@ -210,8 +210,8 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     {
         var module = (T)Activator.CreateInstance(typeof(T), ServiceProvider, hotReload)!;
         _loadedModules.Add(module);
-        module.RegisterServices(ServiceCollection);
         module.Initialize();
+        module.RegisterServices(ServiceCollection);
         RegisterFakeConVars(module.GetType(), module);
         // Rebuild, because some modules are depend on other modules.
         // And if the module is API or something, required before call OnAllPluginsLoaded.
