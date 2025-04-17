@@ -191,6 +191,9 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
         module.RegisterServices(ServiceCollection);
         module.Initialize();
         RegisterFakeConVars(module.GetType(), module);
+        // Rebuild, because some modules are depend on other modules.
+        // And if the module is API or something, required before call OnAllPluginsLoaded.
+        RebuildServiceProvider();
         Logger.LogInformation($"{module.PluginModuleName} has been initialized");
     }
 
@@ -205,6 +208,9 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
         module.RegisterServices(ServiceCollection);
         module.Initialize();
         RegisterFakeConVars(module.GetType(), module);
+        // Rebuild, because some modules are depend on other modules.
+        // And if the module is API or something, required before call OnAllPluginsLoaded.
+        RebuildServiceProvider();
         Logger.LogInformation($"{module.PluginModuleName} has been initialized");
     }
 
