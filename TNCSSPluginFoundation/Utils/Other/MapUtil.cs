@@ -76,10 +76,8 @@ public static class MapUtil
             Server.ExecuteCommand($"changelevel {mapName}");
             return;
         }
-
-        Server.PrintToConsole(GetCurrentMapWorkshopId().ToString());
-        bool executed =  ChangeToWorkshopMap(GetCurrentMapWorkshopId());
-        Server.PrintToConsole($"{executed}");
+        
+        ChangeToWorkshopMap(GetCurrentMapWorkshopId());
     }
 
     /// <summary>
