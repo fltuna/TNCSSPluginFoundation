@@ -131,18 +131,9 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
         {
             if (client.IsBot || client.IsHLTV)
                 continue;
-
-            try
-            {
-                CultureInfo cultureInfo = PlayerLanguageManager.Instance.GetLanguage((SteamID)client.SteamID);
-                using var temporaryCulture = new WithTemporaryCulture(cultureInfo);
-                client.PrintToChat(LocalizeWithPluginPrefix(localizationKey, args));
-            }
-            catch (Exception)
-            {
-                // If failed to get client's steamID then print normally
-                client.PrintToChat(LocalizeWithPluginPrefix(localizationKey, args));
-            }
+            
+            // TODO() Make plugin prefix public
+            client.PrintToChat(GetTextWithPluginPrefix(LocalizeStringForPlayer(client, localizationKey, args)));
         }
     }
 
@@ -159,17 +150,7 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
             if (client.IsBot || client.IsHLTV)
                 continue;
 
-            try
-            {
-                CultureInfo cultureInfo = PlayerLanguageManager.Instance.GetLanguage((SteamID)client.SteamID);
-                using var temporaryCulture = new WithTemporaryCulture(cultureInfo);
-                client.PrintToChat(LocalizeWithModulePrefix(localizationKey, args));
-            }
-            catch (Exception)
-            {
-                // If failed to get client's steamID then print normally
-                client.PrintToChat(LocalizeWithPluginPrefix(localizationKey, args));
-            }
+            client.PrintToChat(GetTextWithModulePrefix(LocalizeStringForPlayer(client, localizationKey, args)));
         }
     }
 
@@ -181,7 +162,7 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
     /// <returns></returns>
     protected string LocalizeWithPluginPrefix(string localizationKey, params object[] args)
     {
-        return Plugin.LocalizeStringWithPluginPrefix(localizationKey, args);
+        return GetTextWithPluginPrefix(LocalizeString(localizationKey, args));
     }
 
     /// <summary>
@@ -192,9 +173,43 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
     /// <returns></returns>
     protected string LocalizeWithModulePrefix(string localizationKey, params object[] args)
     {
-        return $"{ModuleChatPrefix} {LocalizeString(localizationKey, args)}";
+        return GetTextWithModulePrefix(LocalizeString(localizationKey, args));
     }
 
+    /// <summary>
+    /// Helper method for obtain the localized text.
+    /// </summary>
+    /// <param name="player">Player instance</param>
+    /// <param name="localizationKey">Language localization key</param>
+    /// <param name="args">Any args that can be use ToString()</param>
+    /// <returns></returns>
+    protected string LocalizeWithPluginPrefixForPlayer(CCSPlayerController player, string localizationKey, params object[] args)
+    {
+        return GetTextWithPluginPrefix(LocalizeStringForPlayer(player, localizationKey, args));
+    }
+
+    /// <summary>
+    /// Helper method for obtain the localized text.
+    /// </summary>
+    /// <param name="player">Player instance</param>
+    /// <param name="localizationKey">Language localization key</param>
+    /// <param name="args">Any args that can be use ToString()</param>
+    /// <returns></returns>
+    protected string LocalizeWithModuleForPlayer(CCSPlayerController player, string localizationKey, params object[] args)
+    {
+        return GetTextWithModulePrefix(LocalizeStringForPlayer(player, localizationKey, args));
+    }
+
+    protected string GetTextWithPluginPrefix(string text)
+    {
+        // TODO() Make plugin prefix public
+        return $"PLUGIN_PREFIX {text}";
+    }
+
+    protected string GetTextWithModulePrefix(string text)
+    {
+        return $"{ModuleChatPrefix} {text}";
+    }
 
     /// <summary>
     /// Add ConVar to tracking list. if you want to generate config automatically, then call this method with ConVar that you wanted to track.
