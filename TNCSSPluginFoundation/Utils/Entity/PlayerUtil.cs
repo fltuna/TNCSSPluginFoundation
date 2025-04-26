@@ -89,7 +89,7 @@ public static class PlayerUtil
         Utilities.SetStateChanged(client, "CBasePlayerController", "m_iszPlayerName");
 
         var fakeEvent = new EventNextlevelChanged(false);
-        fakeEvent.FireEventToClient(client);
+        fakeEvent.FireEvent(false);
     }
 
     
@@ -104,7 +104,7 @@ public static class PlayerUtil
         Utilities.SetStateChanged(client, "CCSPlayerController", "m_szClan");
 
         var fakeEvent = new EventNextlevelChanged(false);
-        fakeEvent.FireEventToClient(client);
+        fakeEvent.FireEvent(false);
     }
 
     /// <summary>
