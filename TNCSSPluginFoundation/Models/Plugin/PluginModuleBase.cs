@@ -200,12 +200,21 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
         return GetTextWithModulePrefix(LocalizeStringForPlayer(player, localizationKey, args));
     }
 
+    /// <summary>
+    /// Get text with plugin prefix.
+    /// </summary>
+    /// <param name="text">original text</param>
+    /// <returns>Text combined with original text and prefix</returns>
     protected string GetTextWithPluginPrefix(string text)
     {
-        // TODO() Make plugin prefix public
-        return $"PLUGIN_PREFIX {text}";
+        return $"{Plugin.PluginPrefix} {text}";
     }
 
+    /// <summary>
+    /// Get text with module prefix.
+    /// </summary>
+    /// <param name="text">original text</param>
+    /// <returns>Text combined with original text and prefix</returns>
     protected string GetTextWithModulePrefix(string text)
     {
         return $"{ModuleChatPrefix} {text}";

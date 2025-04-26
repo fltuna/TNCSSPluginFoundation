@@ -22,7 +22,7 @@ public sealed class TncssExamplePlugin: TncssPluginBase
     
     // This is a chat prefix. when you use TncssPluginBase::LocalizeStringWithPluginPrefix(), it will return translated string with this prefix.
     // For instance: `[TNCSSExample] This is a translated message!`
-    protected override string PluginPrefix => "[TNCSSExample]";
+    public override string PluginPrefix => "[TNCSSExample]";
 
     
     

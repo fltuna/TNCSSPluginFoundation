@@ -47,7 +47,7 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     /// <summary>
     /// This prefix used for printing to chat.
     /// </summary>
-    protected abstract string PluginPrefix { get; }
+    public abstract string PluginPrefix { get; }
 
 
     /// <summary>
@@ -167,6 +167,7 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     /// <param name="languageKey">Language Key</param>
     /// <param name="args">Any args that can be use ToString()</param>
     /// <returns>"{PluginPrefix} {LocalizedString}"</returns>
+    [Obsolete("This method is deprecated, please use PluginModuleBase::LocalizeWithPluginPrefix()", true)]
     public string LocalizeStringWithPluginPrefix(string languageKey, params object[] args)
     {
         return $"{PluginPrefix} {LocalizeString(languageKey, args)}";

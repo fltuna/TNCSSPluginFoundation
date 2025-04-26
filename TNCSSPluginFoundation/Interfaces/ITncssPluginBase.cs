@@ -29,6 +29,11 @@ internal interface ITncssPluginBase
     public string ConVarConfigPath { get; }
     
     /// <summary>
+    /// This prefix used for printing to chat.
+    /// </summary>
+    public string PluginPrefix { get; }
+    
+    /// <summary>
     /// Localize language key and format args with plugin prefix
     /// </summary>
     /// <param name="languageKey">string key</param>
