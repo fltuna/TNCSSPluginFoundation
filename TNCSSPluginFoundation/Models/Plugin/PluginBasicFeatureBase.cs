@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Translations;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TNCSSPluginFoundation.Interfaces;
 
@@ -35,11 +37,23 @@ public abstract class PluginBasicFeatureBase(IServiceProvider serviceProvider)
     /// <summary>
     /// Simple wrapper method for AbstractTncssPluginBase::LocalizeString()
     /// </summary>
-    /// <param name="localizationKey">languageKey</param>
-    /// <param name="args">Any params that can call ToString() method</param>
-    /// <returns></returns>
+    /// <param name="localizationKey">Localization Key</param>
+    /// <param name="args">Any args that can be use ToString()</param>
+    /// <returns>Translated result</returns>
     protected string LocalizeString(string localizationKey, params object[] args)
     {
         return Plugin.LocalizeString(localizationKey, args);
+    }
+
+    /// <summary>
+    /// Simple wrapper method for AbstractTncssPluginBase::LocalizeStringForPlayer()
+    /// </summary>
+    /// <param name="player">Player instance</param>
+    /// <param name="localizationKey">Localization Key</param>
+    /// <param name="args">Any args that can be use ToString()</param>
+    /// <returns>Translated result as player's language</returns>
+    protected string LocalizeStringForPlayer(CCSPlayerController player, string localizationKey, params object[] args)
+    {
+        return Plugin.LocalizeStringForPlayer(player, localizationKey, args);
     }
 }
