@@ -12,6 +12,7 @@ public class MapChanger(IServiceProvider serviceProvider) : PluginModuleBase(ser
     public override string PluginModuleName => "MapChanger";
         
     public override string ModuleChatPrefix => "[MapChanger]";
+    protected override bool UseTranslationKeyInModuleChatPrefix => false;
 
 
 

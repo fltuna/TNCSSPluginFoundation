@@ -23,9 +23,11 @@ public sealed class TncssExamplePlugin: TncssPluginBase
     // This is a chat prefix. when you use TncssPluginBase::LocalizeStringWithPluginPrefix(), it will return translated string with this prefix.
     // For instance: `[TNCSSExample] This is a translated message!`
     public override string PluginPrefix => "[TNCSSExample]";
+    
+    // If this enabled, PluginPrefix will be treated as Translation Key.
+    public override bool UseTranslationKeyInPluginPrefix => false;
 
-    
-    
+
     // These are initialization and unloading methods.
     // I have sorted method order in this class, so execution order is top to down.
     

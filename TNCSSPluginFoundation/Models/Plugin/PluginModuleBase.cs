@@ -26,6 +26,12 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
     /// This string is used as a prefix for printing to the in-game chat.
     /// </summary>
     public abstract string ModuleChatPrefix { get; } 
+    
+    /// <summary>
+    /// Is ModuleChatPrefix is translation key?
+    /// </summary>
+    protected abstract bool UseTranslationKeyInModuleChatPrefix { get; }
+
 
     /// <summary>
     /// ConVarConfigurationService
@@ -133,7 +139,7 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
                 continue;
             
             // TODO() Make plugin prefix public
-            client.PrintToChat(GetTextWithPluginPrefix(LocalizeStringForPlayer(client, localizationKey, args)));
+            client.PrintToChat(GetTextWithPluginPrefixForPlayer(client, LocalizeStringForPlayer(client, localizationKey, args)));
         }
     }
 
@@ -150,7 +156,7 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
             if (client.IsBot || client.IsHLTV)
                 continue;
 
-            client.PrintToChat(GetTextWithModulePrefix(LocalizeStringForPlayer(client, localizationKey, args)));
+            client.PrintToChat(GetTextWithModulePrefixForPlayer(client, LocalizeStringForPlayer(client, localizationKey, args)));
         }
     }
 
@@ -185,7 +191,7 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
     /// <returns></returns>
     protected string LocalizeWithPluginPrefixForPlayer(CCSPlayerController player, string localizationKey, params object[] args)
     {
-        return GetTextWithPluginPrefix(LocalizeStringForPlayer(player, localizationKey, args));
+        return GetTextWithPluginPrefixForPlayer(player, LocalizeStringForPlayer(player, localizationKey, args));
     }
 
     /// <summary>
@@ -195,29 +201,63 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
     /// <param name="localizationKey">Language localization key</param>
     /// <param name="args">Any args that can be use ToString()</param>
     /// <returns></returns>
-    protected string LocalizeWithModuleForPlayer(CCSPlayerController player, string localizationKey, params object[] args)
+    protected string LocalizeWithModulePrefixForPlayer(CCSPlayerController player, string localizationKey, params object[] args)
     {
-        return GetTextWithModulePrefix(LocalizeStringForPlayer(player, localizationKey, args));
+        return GetTextWithModulePrefixForPlayer(player, LocalizeStringForPlayer(player, localizationKey, args));
     }
 
     /// <summary>
     /// Get text with plugin prefix.
     /// </summary>
     /// <param name="text">original text</param>
-    /// <returns>Text combined with original text and prefix</returns>
+    /// <returns>Text combined with original text and prefix, returns translated plugin prefix if Plugin.UseTranslationKeyInPluginPrefix is true</returns>
     protected string GetTextWithPluginPrefix(string text)
     {
-        return $"{Plugin.PluginPrefix} {text}";
+        if (!Plugin.UseTranslationKeyInPluginPrefix)
+            return $"{ModuleChatPrefix} {text}";
+        
+        return $"{LocalizeString(Plugin.PluginPrefix)} {text}";
     }
 
     /// <summary>
     /// Get text with module prefix.
     /// </summary>
     /// <param name="text">original text</param>
-    /// <returns>Text combined with original text and prefix</returns>
+    /// <returns>Text combined with original text and prefix, returns translated module prefix if UseTranslationKeyInModuleChatPrefix is true</returns>
     protected string GetTextWithModulePrefix(string text)
     {
-        return $"{ModuleChatPrefix} {text}";
+        if (!UseTranslationKeyInModuleChatPrefix)
+            return $"{ModuleChatPrefix} {text}";
+        
+        return $"{LocalizeString(ModuleChatPrefix)} {text}";
+    }
+
+    /// <summary>
+    /// Get text with plugin prefix for player with translation.
+    /// </summary>
+    /// <param name="player">Player Instance</param>
+    /// <param name="text">original text</param>
+    /// <returns>Text combined with original text and prefix, returns translated plugin prefix if Plugin.UseTranslationKeyInPluginPrefix is true</returns>
+    protected string GetTextWithPluginPrefixForPlayer(CCSPlayerController player, string text)
+    {
+        if (!Plugin.UseTranslationKeyInPluginPrefix)
+            return $"{Plugin.PluginPrefix} {text}";
+        
+        return $"{LocalizeStringForPlayer(player, Plugin.PluginPrefix)} {text}";
+    }
+
+    /// <summary>
+    /// Get text with module prefix for player with translation.
+    /// </summary>
+    /// <param name="player">Player Instance</param>
+    /// <param name="text">original text</param>
+    /// <returns>Text combined with original text and prefix, returns translated module prefix if UseTranslationKeyInModuleChatPrefix is true</returns>
+    protected string GetTextWithModulePrefixForPlayer(CCSPlayerController player, string text)
+    {
+        if (!UseTranslationKeyInModuleChatPrefix)
+            return $"{ModuleChatPrefix} {text}";
+        
+        return $"{LocalizeStringForPlayer(player, ModuleChatPrefix)} {text}";
     }
 
     /// <summary>

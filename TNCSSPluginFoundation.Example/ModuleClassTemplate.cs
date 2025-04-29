@@ -15,6 +15,9 @@ public sealed class ModuleClassTemplate(IServiceProvider serviceProvider) : Plug
     // For instance: `[TNCSSExample] This is a translated message!`
     // But you can still send translated message with plugin prefix using PluginModuleBase::PrintLocalizedChatToAll() or PluginModuleBase::LocalizeWithPluginPrefix()
     public override string ModuleChatPrefix => "[ClassTemplate]";
+    
+    // If this enabled, ModuleChatPrefix will be treated as Translation Key.
+    protected override bool UseTranslationKeyInModuleChatPrefix => false;
 
     public FakeConVar<float> ConVarVariableName = new(
         "convar_name",

@@ -48,6 +48,11 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     /// This prefix used for printing to chat.
     /// </summary>
     public abstract string PluginPrefix { get; }
+    
+    /// <summary>
+    /// Is PluginPrefix is translation key?
+    /// </summary>
+    public abstract bool UseTranslationKeyInPluginPrefix { get; }
 
 
     /// <summary>

@@ -11,6 +11,7 @@ public class DiTest(IServiceProvider serviceProvider) : PluginModuleBase(service
 {
     public override string PluginModuleName => "DI Test";
     public override string ModuleChatPrefix => "[DI Test]";
+    protected override bool UseTranslationKeyInModuleChatPrefix => false;
     
     
     private IPluginDependencyExample _dependencyExample = null!;
