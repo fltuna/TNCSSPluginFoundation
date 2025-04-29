@@ -9,6 +9,7 @@ public sealed class ModuleDependency(IServiceProvider serviceProvider) : PluginM
 {
     public override string PluginModuleName => "ModuleDependency";
     public override string ModuleChatPrefix => "[ModuleDependency]";
+    protected override bool UseTranslationKeyInModuleChatPrefix => false;
 
 
     // You can add self instance to the DI container. (recommend to rely on interfaces not concrete class)

@@ -14,6 +14,7 @@ public sealed class PlayerUtility(IServiceProvider serviceProvider) : PluginModu
     public override string PluginModuleName => "PlayerUtility";
 
     public override string ModuleChatPrefix => "[PlayerUtility]";
+    protected override bool UseTranslationKeyInModuleChatPrefix => false;
 
 
     protected override void OnInitialize()
