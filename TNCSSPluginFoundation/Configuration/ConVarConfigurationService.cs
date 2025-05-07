@@ -105,7 +105,10 @@ public class ConVarConfigurationService(TncssPluginBase plugin)
         }
     }
 
-    internal void ExecuteConfigs()
+    /// <summary>
+    /// Execute plugin's ConVar config
+    /// </summary>
+    public void ExecuteConfigs()
     {
         // Check ConVarConfigPath is not directory, and file is not exists
         if(!Directory.Exists(plugin.ConVarConfigPath) && !File.Exists(plugin.ConVarConfigPath))
