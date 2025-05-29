@@ -298,4 +298,49 @@ public static class PlayerUtil
 
         return result;
     }
+
+    /// <summary>
+    /// Show progress bar hud to player <br/>
+    /// You should call <see cref="RemoveProgressBarHud"/> to remove progress bar hud, Otherwise hud will remain on player's screen.
+    /// </summary>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
+    /// <param name="durationSeconds">Countdown count specify with seconds</param>
+    /// <param name="action">At this time, we can only use k_CSPlayerBlockingUseAction_None, otherwise hud will not appear to client</param>
+    public static void ShowProgressBarHud(CCSPlayerController client, int durationSeconds, CSPlayerBlockingUseAction_t action = CSPlayerBlockingUseAction_t.k_CSPlayerBlockingUseAction_None)
+    {
+        if (client.PlayerPawn.Value == null)
+            return;
+        
+        var pawn = client.PlayerPawn.Value;
+
+        float currentTime = Server.CurrentTime;
+
+        pawn.SimulationTime = currentTime + durationSeconds;
+        pawn.ProgressBarDuration = durationSeconds;
+        pawn.ProgressBarStartTime = currentTime;
+        pawn.BlockingUseActionInProgress = action;
+        
+        Utilities.SetStateChanged(pawn, "CBaseEntity", "m_flSimulationTime");
+        Utilities.SetStateChanged(pawn, "CCSPlayerPawnBase", "m_iProgressBarDuration");
+        Utilities.SetStateChanged(pawn, "CCSPlayerPawnBase", "m_flProgressBarStartTime");
+        Utilities.SetStateChanged(pawn, "CCSPlayerPawn", "m_iBlockingUseActionInProgress");
+    }
+
+    /// <summary>
+    /// Remove progress bar hud from player. if player is not showing any progress bar hud, this method will do nothing.
+    /// </summary>
+    /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
+    public static void RemoveProgressBarHud(CCSPlayerController client)
+    {
+        if (client.PlayerPawn.Value == null)
+            return;
+        
+        var pawn = client.PlayerPawn.Value;
+    
+        pawn.ProgressBarDuration = 0;
+        pawn.ProgressBarStartTime = 0.0f;
+        
+        Utilities.SetStateChanged(pawn, "CCSPlayerPawnBase", "m_iProgressBarDuration");
+        Utilities.SetStateChanged(pawn, "CCSPlayerPawnBase", "m_flProgressBarStartTime");
+    }
 }
