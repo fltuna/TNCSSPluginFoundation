@@ -138,7 +138,6 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
             if (client.IsBot || client.IsHLTV)
                 continue;
             
-            // TODO() Make plugin prefix public
             client.PrintToChat(GetTextWithPluginPrefix(client, LocalizeString(client, localizationKey, args)));
         }
     }
@@ -159,6 +158,20 @@ public abstract class PluginModuleBase(IServiceProvider serviceProvider) : Plugi
             client.PrintToChat(GetTextWithModulePrefix(client, LocalizeString(client, localizationKey, args)));
         }
     }
+
+    /// <summary>
+    /// Prints message to server or player's chat
+    /// </summary>
+    /// <param name="player">Player Instance. if null message will print to server console</param>
+    /// <param name="message">Message text</param>
+    protected void PrintMessageToServerOrPlayerChat(CCSPlayerController? player, string message)
+    {
+        if (player == null)
+            Server.PrintToConsole(message);
+        else
+            player.PrintToChat(message);
+    }
+    
 
     /// <summary>
     /// Helper method for obtain the localized text.
