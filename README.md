@@ -22,6 +22,10 @@ But I've created this framework for faster development, and convenience.
 
 Also, If we make plugin with module oriented development, there is no way to inject the proper initialized and working module instance to other module.
 
+## Requirements
+
+* CounterStrikeSharp: v333 or later
+
 ## How to use
 
 1. Download latest binary from [latest Release](https://github.com/fltuna/TNCSSPluginFoundation/releases/latest)

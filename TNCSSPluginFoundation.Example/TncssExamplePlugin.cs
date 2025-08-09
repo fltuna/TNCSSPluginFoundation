@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core.Attributes;
 using Microsoft.Extensions.DependencyInjection;
 using TNCSSPluginFoundation.Example.Dependency;
 using TNCSSPluginFoundation.Example.Interfaces;
@@ -7,11 +8,12 @@ using TNCSSPluginFoundation.Example.Modules.DI;
 
 namespace TNCSSPluginFoundation.Example;
 
+[MinimumApiVersion(333)]
 public sealed class TncssExamplePlugin: TncssPluginBase
 {
     // Same as CounterStrikeSharp plugin
     public override string ModuleName => "TNCSSExamplePlugin";
-    public override string ModuleVersion => "0.3.1";
+    public override string ModuleVersion => "0.4.0";
     
     // This is a base cfg directory path, but I'm not implemented anything yet.
     public override string BaseCfgDirectoryPath => ModuleDirectory;
