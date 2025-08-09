@@ -104,22 +104,25 @@ public abstract class AbstractDebugLoggerBase: IDebugLogger
 
     private void PrintInformation(string debugLevelPrefix ,string information)
     {
-        string msg = $"{LogPrefix} {debugLevelPrefix} {information}";
-        
-        Server.PrintToConsole(msg);
-        
-        if (!PrintToAdminClientsConsole)
-            return;
-        
-        foreach (var client in Utilities.GetPlayers())
+        Server.NextFrame(() =>
         {
-            if (client.IsBot || client.IsHLTV)
-                continue;
+            string msg = $"{LogPrefix} {debugLevelPrefix} {information}";
+        
+            Server.PrintToConsole(msg);
+        
+            if (!PrintToAdminClientsConsole)
+                return;
+        
+            foreach (var client in Utilities.GetPlayers())
+            {
+                if (client.IsBot || client.IsHLTV)
+                    continue;
             
-            if (!AdminManager.PlayerHasPermissions(client, RequiredFlagForPrintToConsole))
-                continue;
+                if (!AdminManager.PlayerHasPermissions(client, RequiredFlagForPrintToConsole))
+                    continue;
 
-            client.PrintToConsole(msg);
-        }
+                client.PrintToConsole(msg);
+            }
+        });
     }
 }
