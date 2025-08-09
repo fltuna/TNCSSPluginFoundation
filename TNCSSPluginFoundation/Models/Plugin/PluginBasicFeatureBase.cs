@@ -37,23 +37,15 @@ public abstract class PluginBasicFeatureBase(IServiceProvider serviceProvider)
     /// <summary>
     /// Simple wrapper method for AbstractTncssPluginBase::LocalizeString()
     /// </summary>
+    /// <param name="player">Player instance, If null it will use server language</param>
     /// <param name="localizationKey">Localization Key</param>
     /// <param name="args">Any args that can be use ToString()</param>
     /// <returns>Translated result</returns>
-    protected string LocalizeString(string localizationKey, params object[] args)
+    protected string LocalizeString(CCSPlayerController? player, string localizationKey, params object[] args)
     {
-        return Plugin.LocalizeString(localizationKey, args);
-    }
+        if (player == null)
+            return Plugin.LocalizeString(localizationKey, args);
 
-    /// <summary>
-    /// Simple wrapper method for AbstractTncssPluginBase::LocalizeStringForPlayer()
-    /// </summary>
-    /// <param name="player">Player instance</param>
-    /// <param name="localizationKey">Localization Key</param>
-    /// <param name="args">Any args that can be use ToString()</param>
-    /// <returns>Translated result as player's language</returns>
-    protected string LocalizeStringForPlayer(CCSPlayerController player, string localizationKey, params object[] args)
-    {
         return Plugin.LocalizeStringForPlayer(player, localizationKey, args);
     }
 }
