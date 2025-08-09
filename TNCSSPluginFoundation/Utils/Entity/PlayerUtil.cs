@@ -161,9 +161,8 @@ public static class PlayerUtil
     /// <param name="client">Target CCSPlayerController instance. This parameter shouldn't be null</param>
     /// <param name="amount">Value of kevlar armor</param>
     /// <param name="hasHelmet">Boolean to specify player should have a helmet</param>
-    /// <param name="hasHeavyArmor">Boolean to specify player should have a heavy armor</param>
     /// <returns>Return true if successfully to set. Otherwise false</returns>
-    public static bool SetPlayerArmor(CCSPlayerController client, int amount, bool hasHelmet = false, bool hasHeavyArmor = false)
+    public static bool SetPlayerArmor(CCSPlayerController client, int amount, bool hasHelmet = false)
     {
         if (client.PlayerPawn.Value == null)
             return false;
@@ -172,7 +171,7 @@ public static class PlayerUtil
         Utilities.SetStateChanged(client.PlayerPawn.Value!, "CCSPlayerPawn", "m_ArmorValue");
         
         
-        if (!hasHelmet && !hasHeavyArmor)
+        if (!hasHelmet)
             return true;
         
         if (client.PlayerPawn.Value.ItemServices == null)
@@ -182,7 +181,6 @@ public static class PlayerUtil
         _ = new CCSPlayer_ItemServices(client.PlayerPawn.Value.ItemServices.Handle)
         {
             HasHelmet = hasHelmet,
-            HasHeavyArmor = hasHeavyArmor
         };
         Utilities.SetStateChanged(client.PlayerPawn.Value, "CBasePlayerPawn", "m_pItemServices");
         return true;
