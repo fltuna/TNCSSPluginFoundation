@@ -13,7 +13,7 @@ public sealed class TncssExamplePlugin: TncssPluginBase
 {
     // Same as CounterStrikeSharp plugin
     public override string ModuleName => "TNCSSExamplePlugin";
-    public override string ModuleVersion => "0.4.0";
+    public override string ModuleVersion => "0.4.1";
     
     // This is a base cfg directory path, but I'm not implemented anything yet.
     public override string BaseCfgDirectoryPath => ModuleDirectory;
