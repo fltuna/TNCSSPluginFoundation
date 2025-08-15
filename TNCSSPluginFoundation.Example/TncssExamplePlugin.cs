@@ -8,7 +8,7 @@ using TNCSSPluginFoundation.Example.Modules.DI;
 
 namespace TNCSSPluginFoundation.Example;
 
-[MinimumApiVersion(333)]
+[MinimumApiVersion(334)]
 public sealed class TncssExamplePlugin: TncssPluginBase
 {
     // Same as CounterStrikeSharp plugin

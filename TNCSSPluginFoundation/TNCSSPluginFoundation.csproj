@@ -7,7 +7,7 @@
       Make module based CounterStrikeSharp plugin development more faster.
     </Description>
     <Authors>tuna A.K.A faketuna and fltuna</Authors>
-    <PackageVersion>0.4.0</PackageVersion>
+    <PackageVersion>0.4.1</PackageVersion>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/fltuna/TNCSSPluginFoundation</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -28,7 +28,7 @@
   </Target>
   
   <ItemGroup>
-    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.333" />
+    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.334" />
     <None Include="..\README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
