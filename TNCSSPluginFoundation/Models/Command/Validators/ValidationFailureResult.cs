@@ -8,7 +8,7 @@ public class ValidationFailureResult
     /// <summary>
     /// Action to take
     /// </summary>
-    public ValidationFailureAction Action { get; set; }
+    public ValidationFailureAction Action { get; private init; }
 
     /// <summary>
     /// Creates a result to use validator's default fallback behavior

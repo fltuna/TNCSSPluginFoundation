@@ -10,6 +10,7 @@ public class AuthorizedSteamIdValidator(IServiceProvider provider): ICommandVali
     public static List<ulong> AuthorizedIds { get; } = new();
 
     public string ValidatorName => "TncssExampleAuthorizedSteamIdValidator";
+    public string ValidationFailureMessage => "Common.Validation.Failure.AuthorizedSteamId";
 
     public TncssCommandValidationResult Validate(CCSPlayerController? player, CommandInfo commandInfo)
     {

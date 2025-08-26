@@ -19,6 +19,16 @@ namespace TNCSSPluginFoundation.Models.Command.Validators;
         )}]";
 
         /// <summary>
+        /// Message of validation failure
+        /// </summary>
+        public string ValidationFailureMessage => _lastFailedValidator?.ValidationFailureMessage ?? "Common.Validation.CompositeValidator.Failure";
+        
+        /// <summary>
+        /// Last validator that failed during validation
+        /// </summary>
+        private ICommandValidator? _lastFailedValidator;
+
+        /// <summary>
         /// Adds a validator to the composite
         /// </summary>
         /// <param name="validator">Validator to add</param>
@@ -41,7 +51,10 @@ namespace TNCSSPluginFoundation.Models.Command.Validators;
             {
                 var result = validator.Validate(player, commandInfo);
                 if (result != TncssCommandValidationResult.Success)
+                {
+                    _lastFailedValidator = validator;
                     return result;
+                }
             }
             return TncssCommandValidationResult.Success;
         }

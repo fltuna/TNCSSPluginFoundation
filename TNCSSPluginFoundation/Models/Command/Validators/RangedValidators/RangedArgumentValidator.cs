@@ -42,6 +42,11 @@ public sealed class RangedArgumentValidator<T> : ICommandValidator, IRangedArgum
     /// Name of this validator for identification purposes
     /// </summary>
     public string ValidatorName => "TncssBuiltinRangedArgumentValidator";
+    
+    /// <summary>
+    /// Message of validation failure
+    /// </summary>
+    public string ValidationFailureMessage => "Common.Validation.Failure.Ranged";
 
     /// <summary>
     /// Validates command input for ICommandValidator interface

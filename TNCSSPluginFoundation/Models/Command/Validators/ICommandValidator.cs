@@ -14,6 +14,11 @@ public interface ICommandValidator
     string ValidatorName { get; }
 
     /// <summary>
+    /// Message of validation failure
+    /// </summary>
+    string ValidationFailureMessage { get; }
+
+    /// <summary>
     /// Validates player command input
     /// </summary>
     /// <param name="player">CCSPlayerController</param>

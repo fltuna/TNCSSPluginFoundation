@@ -24,7 +24,7 @@ public abstract class TncssAbstractCommandBase(IServiceProvider provider)
     /// <summary>
     /// Default validation failure message 
     /// </summary>
-    protected virtual string CommonValidationFailureMessage => "Command validation failed.";
+    protected virtual string CommonValidationFailureMessage => "Common.Validation.Failure";
     
     /// <summary>
     /// ServiceProvider of TncssPluginFoundation DI container
@@ -98,9 +98,11 @@ public abstract class TncssAbstractCommandBase(IServiceProvider provider)
     {
         // Check for ranged validation specific messages
         if (context.RangedValidator != null && context.RangedResult.HasValue)
-        {
             return GetRangedValidationMessage(context.RangedValidator, context.RangedResult.Value);
-        }
+        
+        if (!string.IsNullOrEmpty(context.Validator.ValidationFailureMessage))
+            return context.Validator.ValidationFailureMessage;
+        
         return CommonValidationFailureMessage;
     }
 

@@ -18,6 +18,11 @@ public sealed class PermissionValidator(string requiredPermission, bool dontNoti
     public string ValidatorName => "TncssBuiltinPermissionValidator";
 
     /// <summary>
+    /// Message of validation failure
+    /// </summary>
+    public string ValidationFailureMessage => "Common.Validation.Failure.Permission";
+
+    /// <summary>
     /// Validates player permission
     /// </summary>
     /// <param name="player">CCSPlayerController</param>
