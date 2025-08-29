@@ -3,13 +3,14 @@ using CounterStrikeSharp.API.Modules.Commands;
 using Microsoft.Extensions.DependencyInjection;
 using TNCSSPluginFoundation.Models.Command.Validators;
 using TNCSSPluginFoundation.Models.Command.Validators.RangedValidators;
+using TNCSSPluginFoundation.Models.Plugin;
 
 namespace TNCSSPluginFoundation.Models.Command;
 
 /// <summary>
 /// Abstracted Command Base
 /// </summary>
-public abstract class TncssAbstractCommandBase(IServiceProvider provider)
+public abstract class TncssAbstractCommandBase(IServiceProvider provider): PluginTranslatableFeatureBase(provider)
 {
     /// <summary>
     /// Name of command (e.g. css_tset)
@@ -25,11 +26,6 @@ public abstract class TncssAbstractCommandBase(IServiceProvider provider)
     /// Default validation failure message 
     /// </summary>
     protected virtual string CommonValidationFailureMessage => "Common.Validation.Failure";
-    
-    /// <summary>
-    /// ServiceProvider of TncssPluginFoundation DI container
-    /// </summary>
-    protected IServiceProvider ServiceProvider => provider;
 
     /// <summary>
     /// Internal function handled by TncssPluginFoundation
