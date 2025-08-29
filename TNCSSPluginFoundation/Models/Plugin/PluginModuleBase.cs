@@ -1,9 +1,6 @@
-﻿using System.Globalization;
-using CounterStrikeSharp.API;
+﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Core.Translations;
 using CounterStrikeSharp.API.Modules.Cvars;
-using CounterStrikeSharp.API.Modules.Entities;
 using Microsoft.Extensions.DependencyInjection;
 using TNCSSPluginFoundation.Configuration;
 using TNCSSPluginFoundation.Interfaces;

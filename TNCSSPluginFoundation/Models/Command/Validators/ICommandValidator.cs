@@ -1,0 +1,36 @@
+﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Commands;
+
+namespace TNCSSPluginFoundation.Models.Command.Validators;
+
+/// <summary>
+/// Base interface for command validators
+/// </summary>
+public interface ICommandValidator
+{
+    /// <summary>
+    /// Name of this validator for identification purposes
+    /// </summary>
+    string ValidatorName { get; }
+
+    /// <summary>
+    /// Message of validation failure
+    /// </summary>
+    string ValidationFailureMessage { get; }
+
+    /// <summary>
+    /// Validates player command input
+    /// </summary>
+    /// <param name="player">CCSPlayerController</param>
+    /// <param name="commandInfo">CommandInfo</param>
+    /// <returns>TncssCommandValidationResult</returns>
+    TncssCommandValidationResult Validate(CCSPlayerController? player, CommandInfo commandInfo);
+
+    /// <summary>
+    /// Validates player command input and returns validated arguments
+    /// </summary>
+    /// <param name="player">CCSPlayerController</param>
+    /// <param name="commandInfo">CommandInfo</param>
+    /// <returns>TncssCommandValidationContext</returns>
+    TncssCommandValidationContext ValidateWithArguments(CCSPlayerController? player, CommandInfo commandInfo);
+}

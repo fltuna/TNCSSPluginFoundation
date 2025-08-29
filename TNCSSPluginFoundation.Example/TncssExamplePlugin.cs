@@ -5,6 +5,8 @@ using TNCSSPluginFoundation.Example.Dependency;
 using TNCSSPluginFoundation.Example.Interfaces;
 using TNCSSPluginFoundation.Example.Modules;
 using TNCSSPluginFoundation.Example.Modules.DI;
+using TNCSSPluginFoundation.Example.Modules.ExtendedTargetingTest;
+using TNCSSPluginFoundation.Example.Modules.TncssCommands;
 
 namespace TNCSSPluginFoundation.Example;
 
@@ -57,6 +59,9 @@ public sealed class TncssExamplePlugin: TncssPluginBase
         // There is only one rule: You can obtain dependencies from the DI container only when the AllPluginsLoaded method is called in PluginModules.
         RegisterModule<DiTest>();
         RegisterModule<ModuleDependency>();
+        
+        RegisterModule<TncssCommandsModule>();
+        RegisterModule<ExtenededTargetingModule>();
     }
 
 

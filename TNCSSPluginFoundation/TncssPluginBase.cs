@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TNCSSPluginFoundation.Configuration;
 using TNCSSPluginFoundation.Interfaces;
+using TNCSSPluginFoundation.Models.Command;
 using TNCSSPluginFoundation.Models.Logger;
 using TNCSSPluginFoundation.Models.Plugin;
 
@@ -151,6 +152,13 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     {
         TncssOnPluginUnload(hotReload);
         UnloadAllModules();
+        
+        // Use reverse iteration to avoid collection modification issues
+        for (int i = TncssAbstractedCommands.Count - 1; i >= 0; i--)
+        {
+            RemoveTncssCommand(TncssAbstractedCommands[i]);
+        }
+        TncssAbstractedCommands.Clear();
     }
     
 
@@ -261,5 +269,28 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
     {
         RegisterFakeConVars(logger.GetType(), logger);
         ServiceCollection.AddSingleton(logger);
+    }
+    
+    
+    private List<TncssAbstractCommandBase> TncssAbstractedCommands { get; } = new();
+
+    /// <summary>
+    /// Add TncssAbstracted command to CounterStrikeSharp
+    /// </summary>
+    /// <param name="command">Classes that inherited TncssAbstractCommandBase</param>
+    public void AddTncssCommand(TncssAbstractCommandBase command)
+    {
+        this.AddCommand(command.CommandName, command.CommandDescription, command.Execute);
+        TncssAbstractedCommands.Add(command);
+    }
+
+    /// <summary>
+    /// Remove TncssAbstracted command to CounterStrikeSharp
+    /// </summary>
+    /// <param name="command">Classes that inherited TncssAbstractCommandBase</param>
+    public void RemoveTncssCommand(TncssAbstractCommandBase command)
+    {
+        this.RemoveCommand(command.CommandName, command.Execute);
+        TncssAbstractedCommands.Remove(command);
     }
 }
