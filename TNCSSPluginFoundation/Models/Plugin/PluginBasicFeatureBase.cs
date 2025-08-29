@@ -1,9 +1,7 @@
 ﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Core.Translations;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using TNCSSPluginFoundation.Interfaces;
-using TNCSSPluginFoundation.Models.Command;
 
 namespace TNCSSPluginFoundation.Models.Plugin;
 
@@ -48,15 +46,5 @@ public abstract class PluginBasicFeatureBase(IServiceProvider serviceProvider)
             return Plugin.LocalizeString(localizationKey, args);
 
         return Plugin.LocalizeStringForPlayer(player, localizationKey, args);
-    }
-
-    /// <summary>
-    /// Register command that inherited TncssAbstractCommandBase
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    protected void RegisterTncssCommand<T>() where T : TncssAbstractCommandBase
-    {
-        var module = (T)Activator.CreateInstance(typeof(T), ServiceProvider)!;
-        Plugin.AddTncssCommand(module);
     }
 }
