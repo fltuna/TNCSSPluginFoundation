@@ -25,4 +25,12 @@ public interface ICommandValidator
     /// <param name="commandInfo">CommandInfo</param>
     /// <returns>TncssCommandValidationResult</returns>
     TncssCommandValidationResult Validate(CCSPlayerController? player, CommandInfo commandInfo);
+
+    /// <summary>
+    /// Validates player command input and returns validated arguments
+    /// </summary>
+    /// <param name="player">CCSPlayerController</param>
+    /// <param name="commandInfo">CommandInfo</param>
+    /// <returns>TncssCommandValidationContext</returns>
+    TncssCommandValidationContext ValidateWithArguments(CCSPlayerController? player, CommandInfo commandInfo);
 }

@@ -10,17 +10,17 @@ namespace TNCSSPluginFoundation.Models.Command.Validators;
 /// </summary>
 /// <param name="requiredPermission">Permission node that required</param>
 /// <param name="dontNotifyWhenFailed">When true, it will return TncssCommandValidationResult.FailedIgnoreDefault to avoid print default failure message</param>
-public sealed class PermissionValidator(string requiredPermission, bool dontNotifyWhenFailed = false) : ICommandValidator
+public sealed class PermissionValidator(string requiredPermission, bool dontNotifyWhenFailed = false) : CommandValidatorBase
 {
     /// <summary>
     /// Name of this validator for identification purposes
     /// </summary>
-    public string ValidatorName => "TncssBuiltinPermissionValidator";
+    public override string ValidatorName => "TncssBuiltinPermissionValidator";
 
     /// <summary>
     /// Message of validation failure
     /// </summary>
-    public string ValidationFailureMessage => "Common.Validation.Failure.Permission";
+    public override string ValidationFailureMessage => "Common.Validation.Failure.Permission";
 
     /// <summary>
     /// Validates player permission
@@ -28,7 +28,7 @@ public sealed class PermissionValidator(string requiredPermission, bool dontNoti
     /// <param name="player">CCSPlayerController</param>
     /// <param name="commandInfo">CommandInfo</param>
     /// <returns>TncssCommandValidationResult</returns>
-    public TncssCommandValidationResult Validate(CCSPlayerController? player, CommandInfo commandInfo)
+    public override TncssCommandValidationResult Validate(CCSPlayerController? player, CommandInfo commandInfo)
     {
         if (AdminManager.PlayerHasPermissions(player, requiredPermission))
             return TncssCommandValidationResult.Success;

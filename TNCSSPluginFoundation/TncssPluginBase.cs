@@ -153,9 +153,10 @@ public abstract class TncssPluginBase: BasePlugin, ITncssPluginBase
         TncssOnPluginUnload(hotReload);
         UnloadAllModules();
         
-        foreach (var tncssCommand in TncssAbstractedCommands)
+        // Use reverse iteration to avoid collection modification issues
+        for (int i = TncssAbstractedCommands.Count - 1; i >= 0; i--)
         {
-            RemoveTncssCommand(tncssCommand);
+            RemoveTncssCommand(TncssAbstractedCommands[i]);
         }
         TncssAbstractedCommands.Clear();
     }

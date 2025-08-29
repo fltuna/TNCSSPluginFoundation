@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using TNCSSPluginFoundation.Extensions.Targeting;
 using TNCSSPluginFoundation.Models.Plugin;
 
@@ -13,6 +14,7 @@ public class ExtenededTargetingModule(IServiceProvider serviceProvider) : Plugin
     protected override void OnInitialize()
     {
         ExtendedTargeting.RegisterCustomParameterizedTarget("@hpge", IsPlayerGreaterThanHealth);
+        RegisterTncssCommand<TestTncssCommandWithExtendedTargeting>();
     }
 
     protected override void OnUnloadModule()

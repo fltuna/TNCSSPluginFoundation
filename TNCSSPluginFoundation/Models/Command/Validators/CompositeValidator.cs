@@ -29,6 +29,12 @@ public class CompositeValidator : ICommandValidator
     private ICommandValidator? _lastFailedValidator;
 
     /// <summary>
+    /// Gets the last validator that failed during validation
+    /// </summary>
+    /// <returns>The failed validator or null if no validation was performed or all passed</returns>
+    public ICommandValidator? GetLastFailedValidator() => _lastFailedValidator;
+
+    /// <summary>
     /// Adds a validator to the composite
     /// </summary>
     /// <param name="validator">Validator to add</param>
@@ -57,6 +63,40 @@ public class CompositeValidator : ICommandValidator
             }
         }
         return TncssCommandValidationResult.Success;
+    }
+
+    /// <summary>
+    /// Validates command input using all registered validators and returns validated arguments
+    /// </summary>
+    /// <param name="player">CCSPlayerController</param>
+    /// <param name="commandInfo">CommandInfo</param>
+    /// <returns>TncssCommandValidationContext</returns>
+    public TncssCommandValidationContext ValidateWithArguments(CCSPlayerController? player, CommandInfo commandInfo)
+    {
+        var validatedArguments = new ValidatedArguments();
+        
+        foreach (var validator in _validators)
+        {
+            var validationContext = validator.ValidateWithArguments(player, commandInfo);
+            
+            if (validationContext.Result != TncssCommandValidationResult.Success)
+            {
+                _lastFailedValidator = validator;
+                return validationContext;
+            }
+            
+            // Merge validated arguments from this validator
+            if (validationContext.ValidatedArguments != null)
+            {
+                foreach (var index in validationContext.ValidatedArguments.GetArgumentIndices())
+                {
+                    var value = validationContext.ValidatedArguments.GetArgument<object>(index);
+                    validatedArguments.SetArgument(index, value);
+                }
+            }
+        }
+        
+        return TncssCommandValidationContext.Success(validatedArguments);
     }
 
     /// <summary>

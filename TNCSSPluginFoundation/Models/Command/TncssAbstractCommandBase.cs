@@ -39,21 +39,27 @@ public abstract class TncssAbstractCommandBase(IServiceProvider provider)
     public void Execute(CCSPlayerController? player, CommandInfo commandInfo)
     {
         var validator = GetValidator();
+        ValidatedArguments? validatedArguments = null;
+        
         if (validator != null)
         {
-            var result = validator.Validate(player, commandInfo);
+            var validationContext = validator.ValidateWithArguments(player, commandInfo);
             
-            if (result != TncssCommandValidationResult.Success)
+            if (validationContext.Result != TncssCommandValidationResult.Success)
             {
-                // Handle validation failure
-                var context = new ValidationFailureContext(validator, player, commandInfo, result);
+                var actualFailedValidator = validator;
+                if (validator is CompositeValidator composite)
+                {
+                    actualFailedValidator = composite.GetLastFailedValidator() ?? validator;
+                }
+                
+                var context = new ValidationFailureContext(actualFailedValidator, player, commandInfo, validationContext.Result);
                 var failureResult = OnValidationFailed(context);
 
                 switch (failureResult.Action)
                 {
                     case ValidationFailureAction.UseDefaultFallback:
-                        // Use validator's default behavior
-                        if (result == TncssCommandValidationResult.Failed)
+                        if (validationContext.Result == TncssCommandValidationResult.Failed)
                         {
                             var message = GetDefaultValidationMessage(context);
                             commandInfo.ReplyToCommand(message);
@@ -61,16 +67,15 @@ public abstract class TncssAbstractCommandBase(IServiceProvider provider)
                         return;
 
                     case ValidationFailureAction.SilentAbort:
-                        return;
-
                     default:
-                        // Unknown action, fall back to silent abort
                         return;
                 }
             }
+            
+            validatedArguments = validationContext.ValidatedArguments;
         }
 
-        ExecuteCommand(player, commandInfo);
+        ExecuteCommand(player, commandInfo, validatedArguments);
     }
 
     /// <summary>
@@ -96,7 +101,6 @@ public abstract class TncssAbstractCommandBase(IServiceProvider provider)
     /// <returns>Default message</returns>
     protected virtual string GetDefaultValidationMessage(ValidationFailureContext context)
     {
-        // Check for ranged validation specific messages
         if (context.RangedValidator != null && context.RangedResult.HasValue)
             return GetRangedValidationMessage(context.RangedValidator, context.RangedResult.Value);
         
@@ -128,5 +132,8 @@ public abstract class TncssAbstractCommandBase(IServiceProvider provider)
     /// <summary>
     /// Command body - implement in derived classes
     /// </summary>
-    protected abstract void ExecuteCommand(CCSPlayerController? player, CommandInfo commandInfo);
+    /// <param name="player">Player who executed the command</param>
+    /// <param name="commandInfo">Command information</param>
+    /// <param name="validatedArguments">Validated arguments (null if no validator was used or validation didn't populate arguments)</param>
+    protected abstract void ExecuteCommand(CCSPlayerController? player, CommandInfo commandInfo, ValidatedArguments? validatedArguments);
 }

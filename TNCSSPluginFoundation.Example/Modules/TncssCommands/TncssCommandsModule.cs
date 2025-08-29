@@ -1,4 +1,5 @@
-﻿using TNCSSPluginFoundation.Models.Plugin;
+﻿using CounterStrikeSharp.API;
+using TNCSSPluginFoundation.Models.Plugin;
 
 namespace TNCSSPluginFoundation.Example.Modules.TncssCommands;
 

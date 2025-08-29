@@ -103,7 +103,7 @@ public static class ExtendedTargeting
             List<CCSPlayerController> GetFilteredPlayers()
             {
                 List<CCSPlayerController> players = new();
-                for (int i = 1; i < Server.MaxPlayers; ++i)
+                for (int i = 0; i < Server.MaxPlayers; ++i)
                 {
                     var player = Utilities.GetPlayerFromSlot(i);
                     if (player != null && predicate(player, caller))
@@ -122,9 +122,9 @@ public static class ExtendedTargeting
             return foundTargets.Any();
         }
 
-        if (targetString.StartsWith('@') && targetString.Contains(':'))
+        if (targetString.StartsWith('@') && targetString.Contains('='))
         {
-            var parts = targetString.Split(':', 2);
+            var parts = targetString.Split('=', 2);
             var prefix = parts[0];
             var param = parts[1];
 
@@ -140,7 +140,7 @@ public static class ExtendedTargeting
                 List<CCSPlayerController> GetParamFilteredPlayers()
                 {
                     List<CCSPlayerController> players = new();
-                    for (int i = 1; i < Server.MaxPlayers; ++i)
+                    for (int i = 0; i < Server.MaxPlayers; ++i)
                     {
                         var player = Utilities.GetPlayerFromSlot(i);
                         if (player != null && paramPredicate(param, player, caller))
