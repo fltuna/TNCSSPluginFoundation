@@ -61,15 +61,6 @@ public abstract class CommandValidatorBase : ICommandValidator
     /// <returns>ValidatedArguments containing parsed arguments</returns>
     protected virtual ValidatedArguments ExtractArguments(CCSPlayerController? player, CommandInfo commandInfo)
     {
-        var validatedArguments = new ValidatedArguments();
-        
-        // Default implementation: add raw arguments by index (matching CommandInfo indexing)
-        // Index 0 = command name, Index 1+ = arguments
-        for (int i = 0; i < commandInfo.ArgCount; i++)
-        {
-            validatedArguments.SetArgument(i, commandInfo.GetArg(i));
-        }
-        
-        return validatedArguments;
+        return new ValidatedArguments();
     }
 }
